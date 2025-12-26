@@ -3,12 +3,15 @@ import os
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data.txt")
 
 
-def solve():
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
     ranges = []
     switch_to_ids = False
     num_fresh = 0
 
-    with open(DATA_PATH, "r") as file:
+    with open(data_path, "r") as file:
         for line in file.readlines():
             if not line.strip():
                 switch_to_ids = True

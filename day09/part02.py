@@ -179,8 +179,11 @@ def do_check_outer(
     return True
 
 
-def solve():
-    with open(DATA_PATH, "r") as file:
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
+    with open(data_path, "r") as file:
         reds = [(int(line.split(",")[1]), int(line.split(",")[0])) for line in file]
         grid_size = (
             max([tile[0] for tile in reds]) + 1,

@@ -25,8 +25,11 @@ class UnionFind:
         self.size[j_rep] += self.size[i_rep]
 
 
-def solve():
-    with open(DATA_PATH, "r") as file:
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
+    with open(data_path, "r") as file:
         vectors = [tuple(int(x) for x in line.split(",")) for line in file]
         pairs = list(combinations(vectors, 2))
         pairs.sort(key=lambda vp: LA.norm(np.array(vp[0]) - np.array(vp[1])))

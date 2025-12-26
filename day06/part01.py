@@ -5,8 +5,11 @@ from functools import reduce
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data.txt")
 
 
-def solve():
-    with open(DATA_PATH, "r") as file:
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
+    with open(data_path, "r") as file:
         content = file.readlines()
         res = 0
 

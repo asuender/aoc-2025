@@ -2,11 +2,14 @@ import os
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data.txt")
 
-def solve():
+def solve(data_path: str | None = None):
+  if data_path is None:
+    data_path = DATA_PATH
+
   dial = 50
   count_dial_zero = 0
 
-  with open(DATA_PATH, "r") as file:
+  with open(data_path, "r") as file:
       for line in file.readlines():
           dir = line[0]
           by = int(line[1:])

@@ -22,8 +22,11 @@ def max_joltage_greedy(bank, k=12):
     return int("".join(result[:k]))
 
 
-def solve():
-    with open(DATA_PATH, "r") as file:
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
+    with open(data_path, "r") as file:
         res = []
 
         for line in file.readlines():

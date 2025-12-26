@@ -45,11 +45,14 @@ def remove_accessible_rolls(matrix: list[list[int]]):
     return (matrix, len(accessable))
 
 
-def solve():
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
     matrix = []
     total_accessible = 0
 
-    with open(DATA_PATH, "r") as file:
+    with open(data_path, "r") as file:
         for line in file.readlines():
             line_list = list(line)
             line_list.pop()

@@ -3,9 +3,12 @@ import os
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data.txt")
 
 
-def solve():
+def solve(data_path: str | None = None):
+    if data_path is None:
+        data_path = DATA_PATH
+
     matrix = []
-    with open(DATA_PATH, "r") as file:
+    with open(data_path, "r") as file:
         for line in file.readlines():
             line_list = list(line)
             line_list.pop()

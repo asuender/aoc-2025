@@ -1,0 +1,78 @@
+#!/bin/bash
+# Advent of Code 2025 - Solution Runner
+
+set -e
+
+usage() {
+    echo "Usage: ./aoc DAY PART [-e]"
+    echo ""
+    echo "Arguments:"
+    echo "  DAY   Day number (1-25)"
+    echo "  PART  Part number (1 or 2)"
+    echo ""
+    echo "Options:"
+    echo "  -e    Use example.txt instead of data.txt"
+    echo ""
+    echo "Examples:"
+    echo "  ./aoc 5 1        Run day 5, part 1 with real data"
+    echo "  ./aoc 5 2 -e     Run day 5, part 2 with example data"
+    exit 0
+}
+
+# Show help
+[[ "$1" == "--help" || "$1" == "-h" ]] && usage
+
+# Validate arguments
+if [[ -z "$1" || -z "$2" ]]; then
+    echo "Error: Missing arguments"
+    usage
+fi
+
+DAY=$1
+PART=$2
+
+# Validate day range
+if [[ ! "$DAY" =~ ^[0-9]+$ ]] || [[ "$DAY" -lt 1 ]] || [[ "$DAY" -gt 25 ]]; then
+    echo "Error: Day must be between 1 and 25"
+    exit 1
+fi
+
+# Validate part
+if [[ "$PART" != "1" && "$PART" != "2" ]]; then
+    echo "Error: Part must be 1 or 2"
+    exit 1
+fi
+
+# Format day/part with leading zeros
+DAY_FMT=$(printf "%02d" "$DAY")
+PART_FMT=$(printf "%02d" "$PART")
+
+# Determine data file
+DATA_FILE="data.txt"
+[[ "$3" == "-e" ]] && DATA_FILE="example.txt"
+
+# Check if solution exists
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DAY_DIR="${SCRIPT_DIR}/day${DAY_FMT}"
+SOLUTION="${DAY_DIR}/part${PART_FMT}.py"
+DATA_PATH="${DAY_DIR}/${DATA_FILE}"
+
+if [[ ! -d "$DAY_DIR" ]]; then
+    echo "Error: Day $DAY not found (looking for $DAY_DIR)"
+    exit 1
+fi
+
+if [[ ! -f "$SOLUTION" ]]; then
+    echo "Error: Part $PART not found for day $DAY (looking for $SOLUTION)"
+    exit 1
+fi
+
+if [[ ! -f "$DATA_PATH" ]]; then
+    echo "Error: Data file not found: $DATA_PATH"
+    exit 1
+fi
+
+# Run the solution
+echo "[Day ${DAY_FMT}, Part ${PART}] Running with ${DATA_FILE}..."
+cd "$SCRIPT_DIR" && \
+    python3 -c "from day${DAY_FMT}.part${PART_FMT} import solve; print(solve('${DATA_PATH}'))"
